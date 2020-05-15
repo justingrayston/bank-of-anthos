@@ -32,6 +32,7 @@ Bank of Anthos was developed to create an end-to-end sample demonstrating Anthos
 
 ```
 PROJECT_ID=<your-project-id>
+ZONE=<your-zone>
 gcloud beta services enable container --project ${PROJECT_ID}
 ```
 
@@ -49,7 +50,7 @@ cd bank-of-anthos
 
 ```
 gcloud beta container clusters create bank-of-anthos \
-    --project=${PROJECT_ID} --zone=us-central1-b \
+    --project=${PROJECT_ID} --zone=${ZONE} \
     --machine-type=n1-standard-2 --num-nodes=4
 ```
 
