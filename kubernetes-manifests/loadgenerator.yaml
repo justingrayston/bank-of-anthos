@@ -34,9 +34,9 @@ spec:
         image: gcr.io/bank-of-anthos/loadgenerator:v0.1.2
         env:
         - name: FRONTEND_ADDR
-          value: "frontend:80"
+          value: "bank-of-justin.justingrayston.dev"
         - name: USERS
-          value: "5"
+          value: "2"
         resources:
           requests:
             cpu: 100m

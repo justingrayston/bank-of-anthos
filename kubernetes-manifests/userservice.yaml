@@ -80,7 +80,7 @@ kind: Service
 metadata:
   name: userservice
 spec:
-  type: ClusterIP
+  # type: ClusterIP
   selector:
     app: userservice
   ports:

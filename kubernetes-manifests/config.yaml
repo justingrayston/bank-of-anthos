@@ -40,8 +40,8 @@ data:
   # All default user accounts are hardcoded to use the login password 'password'
   DEFAULT_LOGIN_PASSWORD: "password"
   DEFAULT_USER_ACCOUNT: "1033623433"
-  DEFAULT_USER_USERNAME: "testuser"
-  DEFAULT_USER_NAME: "Eve"
+  DEFAULT_USER_USERNAME: "jgrayston"
+  DEFAULT_USER_NAME: "Justin"
   DEFAULT_DEPOSIT_ACCOUNT: "9099791699"
   DEFAULT_DEPOSIT_ROUTING: "808889588"
   DEFAULT_DEPOSIT_LABEL: "External Bank"

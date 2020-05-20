@@ -83,7 +83,7 @@ kind: Service
 metadata:
   name: balancereader
 spec:
-  type: ClusterIP
+  # type: ClusterIP
   selector:
     app: balancereader
   ports:

@@ -1,0 +1,27 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Issuer
+metadata:
+  name: letsencrypt-issuer
+  namespace: istio-system
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    # This will register an issuer with LetsEncrypt.  Replace
+    # with your admin email address.
+    email: justingrayston@gmail.com
+    privateKeySecretRef:
+      # Set privateKeySecretRef to any unused secret name.
+      name: letsencrypt-issuer
+    solvers:
+    - selector: 
+        dnsNames:
+        - bank-of-justin.justingrayston.dev
+      dns01:
+        clouddns:
+          # Set this to your GCP project-id
+          project: jgrayston-sky-asm-demo
+          # Set this to the secret that we publish our service account key
+          # in the previous step.
+          serviceAccountSecretRef:
+            name: cloud-dns-key
+            key: key.json

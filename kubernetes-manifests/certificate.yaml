@@ -1,0 +1,16 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: bank-of-certificate
+  # Istio certs secret lives in the istio-system namespace, and
+  # a cert-manager Certificate is namespace-scoped.
+  namespace: istio-system
+spec:
+  # Reference to the Istio default cert secret.
+  secretName: istio-ingressgateway-certs
+  # Reference to the ClusterIssuer we created in the previous step.
+  issuerRef:
+    name: letsencrypt-issuer
+  dnsNames:
+  # Provide same list as `domains` section.
+  - "bank-of-justin.justingrayston.dev"

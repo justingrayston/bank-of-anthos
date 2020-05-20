@@ -75,7 +75,7 @@ kind: Service
 metadata:
   name: ledgerwriter
 spec:
-  type: ClusterIP
+    # type: ClusterIP
   selector:
     app: ledgerwriter
   ports:

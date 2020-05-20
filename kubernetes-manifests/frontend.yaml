@@ -15,15 +15,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend
+  name: frontend-v1
+  labels:
+    app: frontend
+    version: v1
 spec:
   selector:
     matchLabels:
       app: frontend
+      version: v1
   template:
     metadata:
       labels:
         app: frontend
+        version: v1
     spec:
       terminationGracePeriodSeconds: 5
       containers:
@@ -79,10 +84,23 @@ kind: Service
 metadata:
   name: frontend
 spec:
-  type: LoadBalancer
   selector:
     app: frontend
   ports:
   - name: http
     port: 80
     targetPort: 8080
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: frontend
+spec:
+  hosts:
+  - frontend
+  http:
+  - route:
+    - destination:
+        host: frontend
+        subset: v1
+

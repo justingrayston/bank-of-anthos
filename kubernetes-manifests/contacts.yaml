@@ -69,7 +69,7 @@ kind: Service
 metadata:
   name: contacts
 spec:
-  type: ClusterIP
+  # type: ClusterIP
   selector:
     app: contacts
   ports:

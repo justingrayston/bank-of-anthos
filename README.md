@@ -51,7 +51,11 @@ cd bank-of-anthos
 ```
 gcloud beta container clusters create bank-of-anthos \
     --project=${PROJECT_ID} --zone=${ZONE} \
-    --machine-type=n1-standard-2 --num-nodes=4
+    --num-nodes=4 \
+    --release-channel=regular \
+    --machine-type "n1-standard-4" \
+    --enable-autoscaling \
+    --min-nodes "4" --max-nodes "20" --addons HorizontalPodAutoscaling,HttpLoadBalancing
 ```
 
 ### 4 - Generate RSA key pair secret

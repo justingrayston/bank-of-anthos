@@ -15,20 +15,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: transactionhistory
+  name: frontend-v2
+  labels:
+    app: frontend
+    version: v2
 spec:
   selector:
     matchLabels:
-      app: transactionhistory
+      app: frontend
+      version: v2
   template:
     metadata:
       labels:
-        app: transactionhistory
+        app: frontend
+        version: v2
     spec:
       terminationGracePeriodSeconds: 5
       containers:
-      - name: history
-        image: gcr.io/bank-of-anthos/transactionhistory:v0.1.2
+      - name: front
+        image: eu.gcr.io/jgrayston-sky-asm-demo/frontend:latest
         volumeMounts:
         - name: publickey
           mountPath: "/root/.ssh"
@@ -38,44 +43,34 @@ spec:
           value: "v0.1.2"
         - name: PORT
           value: "8080"
-        - name: POLL_MS
-          value: "100"
-        - name: CACHE_SIZE
-          value: "1000"
-        - name: CACHE_MINUTES
-          value: "60"
-        - name: HISTORY_LIMIT
-          value: "100"
-          # tell Java to obey container memory limits
-        - name: JVM_OPTS
-          value: "-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap"
-        #- name: EXTRA_LATENCY_MILLIS
-        #  value: "5000"
+        - name: DEFAULT_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: default-data-config
+              key: DEFAULT_USER_USERNAME
+        - name: DEFAULT_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: default-data-config
+              key: DEFAULT_LOGIN_PASSWORD
         envFrom:
         - configMapRef:
             name: environment-config
-        # add ledger-db credentials from ConfigMap
         - configMapRef:
-            name: ledger-db-config
-        resources:
-          requests:
-            cpu: 100m
-            memory: 512Mi
-          limits:
-            cpu: 500m
-            memory: 1Gi
+            name: service-api-config
         readinessProbe:
           httpGet:
             path: /ready
             port: 8080
           initialDelaySeconds: 5
           periodSeconds: 5
-        livenessProbe:
-          httpGet:
-            path: /healthy
-            port: 8080
-          initialDelaySeconds: 120
-          periodSeconds: 5
+        resources:
+          requests:
+            cpu: 100m
+            memory: 64Mi
+          limits:
+            cpu: 500m
+            memory: 256Mi
       volumes:
       - name: publickey
         secret:
@@ -83,16 +78,4 @@ spec:
           items:
           - key: jwtRS256.key.pub
             path: publickey
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: transactionhistory
-spec:
-  # type: ClusterIP
-  selector:
-    app: transactionhistory
-  ports:
-  - name: http
-    port: 8080
-    targetPort: 8080
+
